@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ao.Auto.Processes", "Ao.Auto.Processes\Ao.Auto.Processes.csproj", "{560BB6BF-5565-4134-8FFA-A6A831B74023}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{560BB6BF-5565-4134-8FFA-A6A831B74023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{560BB6BF-5565-4134-8FFA-A6A831B74023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{560BB6BF-5565-4134-8FFA-A6A831B74023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{560BB6BF-5565-4134-8FFA-A6A831B74023}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
