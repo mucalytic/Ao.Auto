@@ -1,10 +1,10 @@
 using System.Runtime.InteropServices;
+using System.Reactive.Subjects;
 using System.Windows.Input;
 using System.Diagnostics;
 using System;
-using Ao.Auto.Ui;
 
-namespace Ao.Auto.Processes
+namespace Ao.Auto.Ui
 {
     public class KeyboardHook
     {
@@ -13,26 +13,25 @@ namespace Ao.Auto.Processes
         private const int WM_SYSKEYDOWN = 0x0104;
  
         public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
- 
-        public event EventHandler<KeyPressedArgs> OnKeyPressed;
- 
+
+        private readonly ISubject<Key>        _keySubject;
         private readonly LowLevelKeyboardProc _proc;
-        private IntPtr _hookId = IntPtr.Zero;
- 
+        private          IntPtr               _hookId = IntPtr.Zero;
+
+        public IObservable<Key> ObservableKeys =>
+            _keySubject;
+
         public KeyboardHook()
         {
-            _proc = HookCallback;
+            _keySubject = new Subject<Key>();
+            _proc       = HookCallback;
         }
  
-        public void HookKeyboard()
-        {
+        public void HookKeyboard() =>
             _hookId = SetHook(_proc);
-        }
  
-        public void UnHookKeyboard()
-        {
+        public void UnHookKeyboard() =>
             User32.UnhookWindowsHookEx(_hookId);
-        }
  
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
@@ -45,22 +44,10 @@ namespace Ao.Auto.Processes
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
             {
-                var vkCode = Marshal.ReadInt32(lParam);
-
-                OnKeyPressed?.Invoke(this, new KeyPressedArgs(KeyInterop.KeyFromVirtualKey(vkCode)));
+                _keySubject.OnNext(KeyInterop.KeyFromVirtualKey(Marshal.ReadInt32(lParam)));
             }
  
             return User32.CallNextHookEx(_hookId, nCode, wParam, lParam);
-        }
-    }
-    
-    public class KeyPressedArgs : EventArgs
-    {
-        public Key KeyPressed { get; private set; }
- 
-        public KeyPressedArgs(Key key)
-        {
-            KeyPressed = key;
         }
     }
 }

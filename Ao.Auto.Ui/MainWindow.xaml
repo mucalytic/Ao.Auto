@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ao.Auto.Ui"
         mc:Ignorable="d"
+        Loaded="OnLoaded" Closing="OnClosing"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <TextBlock Name="KeyText" TextWrapping="Wrap" FontSize="24" />
     </Grid>
 </Window>
