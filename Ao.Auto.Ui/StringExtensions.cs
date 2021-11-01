@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Ao.Auto.Processes
+namespace Ao.Auto.Ui
 {
     public static class StringExtensions
     {

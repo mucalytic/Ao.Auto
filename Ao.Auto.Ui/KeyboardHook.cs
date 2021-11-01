@@ -14,16 +14,16 @@ namespace Ao.Auto.Ui
  
         public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        private readonly ISubject<Key>        _keySubject;
+        private readonly ISubject<IntPtr>        _keySubject;
         private readonly LowLevelKeyboardProc _proc;
         private          IntPtr               _hookId = IntPtr.Zero;
 
-        public IObservable<Key> ObservableKeys =>
+        public IObservable<IntPtr> ObservableKeys =>
             _keySubject;
 
         public KeyboardHook()
         {
-            _keySubject = new Subject<Key>();
+            _keySubject = new Subject<IntPtr>();
             _proc       = HookCallback;
         }
  
@@ -44,7 +44,8 @@ namespace Ao.Auto.Ui
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
             {
-                _keySubject.OnNext(KeyInterop.KeyFromVirtualKey(Marshal.ReadInt32(lParam)));
+                //_keySubject.OnNext(KeyInterop.KeyFromVirtualKey(Marshal.ReadInt32(lParam)));
+                _keySubject.OnNext(lParam);
             }
  
             return User32.CallNextHookEx(_hookId, nCode, wParam, lParam);
